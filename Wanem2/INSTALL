@@ -1,0 +1,25 @@
+
+Installation Instructions
+
+You must have the apache web server and mod_php installed on your netem
+machine. 
+
+You must also have netem working correctly on your machine with support
+available in the kernel and a recent version of iproute2 installed.
+
+You need to have sudo installed and working on your machine. 
+Sudo has a configuration file which can be edited using the 'visudo'
+command. The following line will be added:
+
+%www-data         ALL=NOPASSWD: /sbin/tc, /bin/echo, /bin/mv, /bin/grep, /root/disc_new_port_int/disconnect.sh, /root/disc_new_port_int/check_disco.sh, /root/disc_new_port_int/reset_disc.sh, /usr/sbin/conntrack, /root/wanalyzer/tcs_wanc_menu.sh, /root/wanalyzer/tcs_wanem_main.sh%www-data  ALL=NOPASSWD: /sbin/tc, /bin/echo, /bin/mv, /bin/grep, /root/disc_new_port_int/disconnect.sh, /root/disc_new_port_int/check_disco.sh, /root/disc_new_port_int/reset_disc.sh, /usr/sbin/conntrack, /root/wanalyzer/tcs_wanc_menu.sh, /root/wanalyzer/tcs_wanem_main.sh
+
+Username can be "www-data" or "apache".
+Change it to the appropriate user if it is not.
+
+The file, 'config.inc.php' is a small configuration file for the
+program. You can change the location of the commands used by the 
+program and the location that it temporarily stores the on/off status 
+and the last set of commands that were run.  This location must be 
+read/writeable by all users, /tmp is a good example.
+
+
