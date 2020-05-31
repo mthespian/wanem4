@@ -1,84 +1,103 @@
 #!/bin/bash
+# trap any exit code.  99 means kill the whole script.
+set -E
+trap '[ "$?" -ne 99 ] || exit 99' ERR
 
 # verify running as root 
 if [[ $EUID > 0 ]]
 	then
 		echo "ERROR: Run setup script as root"
-		exit 1 
+		exit 99 
 	else
 		echo "Initiating setup process" 
 		echo
 fi
 
-
-# find apache user
-echo "- Detecting apache user"
-apache_user=$(apachectl -S 2>&1 | sed -r -n 's/^User:\sname=(.*)\s*id=[[:digit:]]*$/\1/p') || exit 1
-if [ ! -z "$apache_user" ]
-then
-	echo "  - Found: $apache_user"  
-else
-	echo "  ! Unable to identify apache user. Is 'apachectl' available and on the path?"
-	exit 1
-fi
-
-# locate target directory for apache files
-echo "- Detecting apache document root"
-target_dir=$(apachectl -S 2>&1 | sed -n 's/^Main DocumentRoot: //p')
-if [ ! -z "$target_dir" ]
-then
-	echo "  - Found: $target_dir"  
-else
-	echo "  ! Unable to identify apache Main DocumentRoot."
-	exit 1
-fi
-
 # locate function 
 do_locate () {
-# first parameter is program to locate
-# second parameter is global variable to get resulting path
-	local __resultvar=$2
-	echo "- Locating $1"
-	if [ ! -z "'$(which $1)'" ]
+# parameter is program to locate
+# return is global variable named *programname*_loc
+	local __resultvar="$1_loc"
+	echo "  - Locating $1"
+	eval $__resultvar="'$(which $1)'"
+	if [ ! -z $( eval "echo \$$__resultvar" ) ]
 	then
-		eval $__resultvar="'$(which $1)'"
+		echo -ne "    = "
+		echo $( eval "echo \$$__resultvar" )
+		declare -x $__resultvar
 	else
-		echo "  ! Unable to find '$1'."
-		exit 1
+		echo "    ! Unable to find '$1'."
+		exit 99
 	fi
 }
 
-# locate programs we'll need to complete our setup
-do_locate apachectl dontcare_loc
-do_locate awk dontcare_loc
-do_locate brctl dontcare_loc
-do_locate cat dontcare_loc
-do_locate chmod dontcare_loc
-do_locate chown dontcare_loc
-do_locate chgrp dontcare_loc
-do_locate conntrack conntrack_loc
-do_locate cut dontcare_loc
-do_locate echo echo_loc
-do_locate find dontcare_loc
-do_locate grep grep_loc
-do_locate ifconfig dontcare_loc 
-do_locate iptables dontcare_loc 
-do_locate killall dontcare_loc 
-do_locate mv mv_loc
-do_locate more dontcare_loc
-do_locate nmcli nmcli_loc
-do_locate pgrep dontcare_loc
-do_locate ping dontcare_loc
-do_locate pump dontcare_loc
-do_locate route dontcare_loc
-do_locate sed dontcare_loc
-do_locate sleep dontcare_loc
-do_locate sudo dontcare_loc
-do_locate tail dontcare_loc
-do_locate tc tc_loc
-do_locate touch dontcare_loc
-do_locate xargs dontcare_loc
-do_locate wc dontcare_loc
+echo
+# locate command line utilites we'll need to complete setup and operate correctly
+echo "- Finding relevant command line utilities"
+required_utils=(
+	"apachectl" 
+	"awk" 
+	"brctl" 
+	"cat" 
+	"chmod" 
+	"chown" 
+	"chgrp" 
+	"conntrack" 
+	"cut" 
+	"echo" 
+	"find" 
+	"grep" 
+	"ifconfig" 
+	"iptables" 
+	"killall" 
+	"mv" 
+	"more" 
+	"nmcli" 
+	"pgrep" 
+	"ping" 
+	"php" 
+	"pump" 
+	"route" 
+	"sed" 
+	"sleep" 
+	"sudo" 
+	"tail" 
+	"tc" 
+	"touch" 
+	"xargs" 
+	"wc"
+)
+for u in "${required_utils[@]}"
+do
+	do_locate $u
+done
+
+echo
+echo "- Learning apache server configuration"
+
+# find apache user
+echo "  - Detecting apache user"
+apache_user=$(apachectl -S 2>&1 | sed -r -n 's/^User:\sname=\"(.*)\"\s*id=[[:digit:]]*$/\1/p') || exit 1
+if [ ! -z "$apache_user" ]
+then
+	echo "    = $apache_user"  
+else
+	echo "    ! Unable to identify apache user."
+	exit 99
+fi
+
+# locate target directory for apache files
+echo "  - Detecting apache document root"
+target_dir=$(apachectl -S 2>&1 | sed -r -n 's/^Main\sDocumentRoot:\s\"(.*)\"/\1/p')
+if [ ! -z "$target_dir" ]
+then
+	echo "    = $target_dir"  
+else
+	echo "    ! Unable to identify apache Main DocumentRoot."
+	exit 99
+fi
+
+
 
 # define target directory for application scripts
 # TODO: make this adjustable
@@ -87,6 +106,19 @@ script_install_dir="/root"
 # write sudoers file 
 echo
 echo "- Configuring sudo"
+#php -r 'echo preg_replace_callback("/\\$([a-z0-9_]+)/i", function ($matches) { return getenv($matches[1]); }, fread(STDIN, 8192));' < ./config_templates/20_wanem_user.template > /etc/sudoers.d/20_wanem_user
+cat ./config_templates/20_wanem_user.template | envsubst > /tmp/20_wanem_user
+echo > "/tmp/20_wanem_user"
+while read line 
+do
+    line=${line/\$script_install_dir\}/$script_install_dir}
+	echo "$line" >> "/tmp/20_wanem_user"
+done < "./config_templates/20_wanem_user.template"
+cat ./config_templates/20_wanem_user.template | envsubst > /tmp/20_wanem_user
+cat <<_SUDOERS_END
+# Give detected apache user rights for wanem required scripts and utilities
+%$apache_user         ALL=NOPASSWD:$tc_loc, $echo_loc, $mv_loc, $grep_loc, $conntrack_loc, $script_install_dir/disc_new_port_int/disconnect.sh, $script_install_dir/disc_new_port_int/check_disco.sh, $script_install_dir/disc_new_port_int/reset_disc.sh, $script_install_dir/wanalyzer/tcs_wanc_menu.sh, $script_install_dir/wanalyzer/tcs_wanem_main.sh
+_SUDOERS_END
 exit
  
 # install web content

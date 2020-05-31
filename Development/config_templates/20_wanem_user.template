@@ -1,2 +1,0 @@
-# Give apache user (detected in setup) rights for wanem usage
-%$apache_user         ALL=NOPASSWD:/sbin/tc, /bin/echo, /bin/mv, /bin/grep, $script_install_dir/disc_new_port_int/disconnect.sh, $script_install_dir/disc_new_port_int/check_disco.sh, $script_install_dir/disc_new_port_int/reset_disc.sh, /usr/sbin/conntrack, $script_install_dir/wanalyzer/tcs_wanc_menu.sh, $script_install_dir/wanalyzer/tcs_wanem_main.sh
