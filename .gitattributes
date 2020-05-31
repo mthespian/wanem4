@@ -1,0 +1,17 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text eol=lf
+
+# Explicitly declare some text file formats
+*.awk text
+*.css text
+*.html text
+*.md text
+*.php text
+*.sh text
+*.txt text
+*.template text
+
+# Denote all files that are truly binary and should not be modified.
+*.ico binary
+*.jpg binary
+*.png binary
