@@ -5,6 +5,7 @@
 *.awk text
 *.css text
 *.html text
+*.htm text
 *.md text
 *.php text
 *.sh text
