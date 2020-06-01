@@ -40,7 +40,29 @@ by British Telecom and new features are added & the GUI has been
 expanded. The modified portion of the code is copyrighted by 
 TCS and redistributed under GNU General Public License version 2. 
 
-The original PHPNetemGUI version 0.9 code can be found in the 
-WANem CD in the folder /root/phpnetemgui0.9.
+***************************************************************
+			WANem2 
+***************************************************************
+	Copyright 2015 VladimirS
+
+WANem2 is a continuation of the WAN emulation tool.
+
+This program is a modified version of TCS WANem extracting
+files from the liveCD image and porting to php 5.6
+
+Modified portions of the code and additions are 
+copyright 2015 by VladimirS and redistributed under 
+GNU General Public License version 2. 
+
+***************************************************************
+			WANem4 
+***************************************************************
+	Copyright 2020 Tracy S. Fitch
+
+WANem4 is a continuation of the WAN emulation tool.
+
+Modified portions of the code and additions are 
+copyright 2020 by Tracy S. Fitch and redistributed under 
+GNU General Public License version 2. 
 
 ***************************************************************
