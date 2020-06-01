@@ -10,7 +10,7 @@
 <p align="center"><font size="6"><b>WANem Interface Help</b></font></p>
 <b><font size="5" color=#8476352>Introduction:</font></b>
 <p>Wanem GUI is a user interface for the tc (traffic control) tool for creating and running various network emulation
-rules on any network interface;including packet delay, packet loss, packet duplication, packet corruption, packet reordering 
+rules on any network interface; including packet delay, packet loss, packet duplication, packet corruption, packet reordering 
 and bandwidth limiting. It also interfaces to the Disconnect tool and WANalyzer tool. The Disconnect tool is used to emulate
 network disconnections and WANalyzer tool is used for Wide Area Network characterization. The interface is split into five
 different sections. These sections are - About, <b>WANalyzer</b>, <b>Basic mode</b>, <b>Advanced mode</b> and Help.
@@ -18,26 +18,28 @@ Where purpose of about and help sections are obvious, in the following we descri
 basic and advanced mode of WANem.</p>
 <p><b><font size="4" color=#074874>WANalyzer:</font></b></p>
 <p>
-WANalyzer is  designed for calibrating Wide Area Network Characteristics. The tool can measure available bandwidth, latency,
-loss and jitter of a network in a few seconds given the IP Address of a remote host as an input. On the output window of the
-tool, there is a button for emulating the measured WAN characteristics directly. (For resetting the emulation from
-WANalyzer, one has to go to Basic mode and press 'reset' button.)
+WANalyzer is designed for calibrating Wide Area Network Characteristics. Given the IP address of a remote host, the tool 
+measures available bandwidth, latency, loss and jitter of a network in a few seconds. On the output window of the
+tool, there is a button for directly emulating the measured WAN characteristics. (To remove the WANalyzer emulation, 
+go to Basic mode and press 'reset' button.)
 </p>
 <p><b><font size="4" color=#074874>Basic Mode:</font></b></p>
-<p>You can add netem rules to more than one interface at once, but, unlike
-advanced mode, you can not add more than one set of netem rules to a single interface in this mode. The only network characteristics supported in this mode are Bandwidth and Latency.
-If there has already been more than one set of rules added to an interface in advanced mode, then you won't be able to edit those rules while in basic mode and you must either reset all of the rules or go into advanced mode and edit them from there.&nbsp;
-However, you can still edit the rules for other interfaces even if some
-interfaces have more than one set of rules running.</p>
+<p>You can add netem rules to more than one interface at once, but, unlike advanced mode, you cannot add more than 
+one set of netem rules to a single interface in this mode. The only network characteristics supported in this mode 
+are Bandwidth and Latency. If there an interface has more than one set of rules (from)advanced mode), 
+you won't be able to edit those rules while in basic mode--You must either reset all of the rules or edit them in advanced mode.&nbsp;
+However, you can still edit the rules for other interfaces without multiple rules.</p>
 
 <p><b><font size="4" color=#074874>Advanced Mode:</font></b></p>
-<p>You can use this mode to add more than one set of IP-address-matched WANem rules to a particular interface.  You can only view the rules for the particular interface you
-selected. If you want to have more than one set of WANem rules running on a single interface then they must be unique in some way.  The way
-to make them unique is to give each set of rules different and mutually exclusive IP address matching rules.  This means that you cannot have two rule sets matching the same source address and/or the same destination address and/or port.  If there are rules for source and destination addresses and ports on
-more than one rule set then either the source or destination IP address or application port must be mutually exclusive for them to be valid.</p>
+<p>You can use this mode to add more than one set of IP-address-matched WANem rules to a particular interface.  To apply 
+multiple rule sets to a single interface, make them unique.  Give each rule set different (and mutually exclusive) IP address matches.  
+This means you cannot have two rule sets matching the same source address and/or the same destination address and/or port.  
+If there are rules for source and destination addresses and ports on more than one rule set then source or destination IP or 
+application port must be mutually exclusive for them to be valid.</p>
+
 <p><b><font size="4" color=#074874>Save/Restore:</font></b></p>
 <p>
-Save/Restore option can be used for saving and restoring WANem setting to/from the client. This feature helps one to re-run 
+Save/Restore option can be used for saving and restoring WANem setting to/from the client. This feature helps to re-run 
 the same WANem settings in future.
 </p>
 <p>
@@ -49,29 +51,30 @@ boxes and click the &quot;apply settings&quot; button to run them.&nbsp; Only ty
 
 
 <p><font size="3">The boxes for each rule must be filled in from the top down<b>.</b>&nbsp;
-Each box below the top one in each section must have the box above filled in.
+Each box (below the top one) in a section must have the box above filled in.
 e.g. for delay, the delay time box must be filled in before the jitter box, the
 jitter must be filled in before the delay correlation box.</font></p>
 
-<p><font size="3">Most of the boxes are self explanatory but for a detailed explanation
+<p><font size="3">Many boxes are self-explanatory, but for a detailed explanation
 of the WANem functions, see the <a href="wanemulator_all_about.pdf" target=_blank>WANem Documentation</a>.
-&nbsp;For latest updated WANem Documentation, visit our web page at this link: <a href="http://wanem.sourceforge.net/documentation.html" target=_blank>Latest WANem Documentation</a>.</font></p>
+&nbsp;For additional existing (outdated) WANem Documentation, visit the original WANem project page at: 
+<a href="http://wanem.sourceforge.net/documentation.html" target=_blank>Original WANem Documentation</a>.</font></p>
 
 <p><b><font size="3">IP address matching:</font></b></p>
 
-<p>You can make certain WANem rules only apply to packets that are coming from
-and/or going to a certain IP address or block of addresses.&nbsp; The default
-values in the IP source and destination address boxes is &quot;any&quot;&nbsp;
-This means that all packets going out of the interface will have the WANem rules
-applied to them.&nbsp; If you want to specify IP addresses you must type the IP
-address and the subnet into the relevant boxes.&nbsp; e.g. to apply WANem rules
-to packets going to IP address 1.2.3.4 you need to type &quot;<b>1.2.3.4</b>&quot;(without
-the quotes) in the &quot;IP destination addr&quot; box, then type &quot;<b>32</b>&quot;(without
-the quotes) into the &quot;IP destination subnet&quot; box.&nbsp; To apply the
-WANem rules to packets going to IP addresses in the range of 1.2.3.0 - 1.2.3.255
-then you need to type &quot;<b>1.2.3.0</b>&quot;(without the quotes) in the
-&quot;IP destination addr&quot; box, then type &quot;<b>24</b>&quot;(without the
-quotes) into the &quot;IP destination subnet&quot; box.</p>
+<p>You can make certain WANem rules only apply to packets from
+and/or to a certain IP address or block of addresses.&nbsp; The default
+value in the IP source and destination address boxes is &quot;any&quot;&nbsp;
+This means all packets exiting the interface will have the WANem rules
+applied.&nbsp; To limit IP addresses you must type the IP
+address and subnet size into the relevant boxes.&nbsp; e.g. to apply WANem rules
+to packets going to IP address 1.2.3.4, type &quot;<b>1.2.3.4</b>&quot;(without
+the quotes) in &quot;IP destination addr&quot;, then &quot;<b>32</b>&quot;(without
+the quotes) in &quot;IP destination subnet&quot;.&nbsp; To apply rules to packets 
+going to IP addresses in the range of 1.2.3.0 - 1.2.3.255,
+type &quot;<b>1.2.3.0</b>&quot;(without the quotes) in
+&quot;IP destination addr&quot;, then &quot;<b>24</b>&quot;(without the
+quotes) in &quot;IP destination subnet&quot;.</p>
 
 <p><br>
 <b><font size="4">Buttons:</font></b></p>
