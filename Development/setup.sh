@@ -153,12 +153,23 @@ do
 		then
 			if [ ! -w "$web_dir/$f" ] 
 			then
-				echo "  ! $web_dir/ not writable"
+				echo "  ! $web_dir/ is not writable"
+				exit 99
 			fi
 		else
+			if [ ! -w "$web_dir/$f/.." ]
+			then
+				echo "  ! Parent directory of $web_dir/$f is not writable"
+				exit 99
+			fi
 			mkdir "$web_dir/$f"	
 		fi
 	else
+		if [ -f "$web_dir/$f" ] && [ ! -w "$web_dir/$f" ]
+		then
+			echo "  ! $webdir/$f is read only"
+			exit 99
+		fi
 		cp "./$f" "$web_dir/"
 	fi
 done
@@ -181,11 +192,22 @@ do
 			if [ ! -w "$script_install_dir/$f" ] 
 			then
 				echo "  ! $script_install_dir/ not writable"
+				exit 99
 			fi
 		else
+			if [ ! -w "$script_install_dir/$f/.." ]
+			then
+				echo "  ! Parent directory of $script_install_dir/$f is not writable"
+				exit 99
+			fi
 			mkdir "$script_install_dir/$f"	
 		fi
 	else
+		if [ -f "$script_install_dir/$f" ] && [ ! -w "$script_install_dir/$f" ]
+		then
+			echo "  ! $script_install_dir/$f is read only"
+			exit 99
+		fi
 		cp "./$f" "$script_install_dir/"
 	fi
 done
