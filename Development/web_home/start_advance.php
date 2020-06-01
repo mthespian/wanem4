@@ -1,6 +1,9 @@
 <?php
 // ---------------------------------------------------------------
-// PHPnetemGUI
+// Wanem4 GUI
+// Copyright 2020 Tracy S Fitch
+//
+// based on PHPnetemGUI
 //
 // Copyright 2005 British Telecommunications plc
 //
@@ -27,13 +30,12 @@ find_bridges($bridgeName, $bridgeInts, 0);
 
 //Call the function to find all non-bridge interfaces on the machine.
 find_interfaces($interfaces, $bridgeName, $bridgeInts);
-
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title> Wanem2 GUI</title>
+<title> Wanem4 GUI</title>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> </link>
 <!--
 <link rel="stylesheet" type="text/css" href="/phpnetemguimain.css">
@@ -52,7 +54,7 @@ find_interfaces($interfaces, $bridgeName, $bridgeInts);
 			<td width="34%" align="center">
 			<p align="center"><font size="4" color=#083294737><b> Wanem2 GUI</b></font></p>
 			</td>
-			<td width="33%" align="right"><font size="2"> Wanem2 GUI <a href="http://www.smyles.plus.com/phpnetemgui/" target="_blank">homepage</a></font></td>
+			<td width="33%" align="right"><font size="2"> Wanem4 GUI <a href="http://www.smyles.plus.com/phpnetemgui/" target="_blank">homepage</a></font></td>
 		  </tr>
 		</table>
 	</div>
@@ -99,7 +101,7 @@ find_interfaces($interfaces, $bridgeName, $bridgeInts);
 				<table><tr><td align=left>
 				<p><font color="red">
 				The WANem machine has detected only 1 ethernet interface card.<br>
-				There will be restricions on the maximum bandwidth that can be emulated<br>
+				There will be restrictions on the maximum bandwidth that can be emulated<br>
 				depending upon <br>
 				-The Network Interface bandwidth. <br>
 				-Application/Protocol traffic being tested with WANem.

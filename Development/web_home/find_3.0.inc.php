@@ -30,6 +30,8 @@ function find_bridges(&$bridgeName, &$bridgeInts, $showBridges)
 			$bridgeName[]=$dirs[$i];
 		}
 	}
+	//Reverse sort the bridgeName list before we go any further
+	rsort($bridgeName);
 	//Loop through found bridges if any exist and get the interfaces used in each
 	if (count($bridgeName)>0) {
 		for ($i=0;$i<count($bridgeName);++$i) {
@@ -141,5 +143,7 @@ function find_interfaces(&$interfaces, $bridgeName, $bridgeInts) {
 	//Set the $interfaces array as $tmpArray but in reverse order.  This is because the fopen
 	//function gets files in reverse order.
 	$interfaces=array_reverse($tmpArray);
+	//Sort the array before returning
+	sort($interfaces);
 }
 ?>
